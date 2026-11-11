@@ -4,15 +4,28 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public class RobotContainer {
+  //can a symphony write a robot????
+  public static final Timer timer = new Timer();
+  public final Drain drain = new Drain();
   public RobotContainer() {
     configureBindings();
   }
-
-  private void configureBindings() {}
+  
+  private void configureBindings() {
+    drain.setDefaultCommand(Commands.run(
+        () -> drain.setVelocity(0.8 * Math.sin(timer.get())), 
+        drain // Can a robot write a symphony?
+    ).beforeStarting(() -> {
+        timer.reset();
+        timer.start(); 
+      })
+    ); 
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
